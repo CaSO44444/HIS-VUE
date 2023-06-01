@@ -712,7 +712,8 @@ import AddFollow from "@/views/AddFollow.vue";
                   patient_name:puname
                 }
             )
-        ).then(response => {      //返回值部分
+        ).then(response => {
+          //返回值部分
           this.thisPagePatientPRRandMR = response.data.data[0]
           if(this.thisPagePatientPRRandMR.patient.gender === '1'){
             this.thisPagePatientPRRandMR.patient.gender = '男'
@@ -731,7 +732,6 @@ import AddFollow from "@/views/AddFollow.vue";
         }).catch(error => {
           console.log(error)
         })
-        console.log(this.thisPagePatientPRRandMR)
       },
       onSubmit(){
         //未就诊
@@ -831,7 +831,6 @@ import AddFollow from "@/views/AddFollow.vue";
           });
         }else {
           //设置看诊否为看诊
-          this.thisPagePatientPRRandMR.status = 1
           //传递到后台
           this.$axios.post('/consultation/update_status',
               {
@@ -848,7 +847,17 @@ import AddFollow from "@/views/AddFollow.vue";
                 pay:this.pay,
                 status:1
               }
-              ).then(response => {      //返回值部分
+              ).then(response => {
+            this.$alert('', '提交成功', {
+              confirmButtonText: '确定',
+              callback: action => {
+                this.$message({
+                  type: 'info',
+                  message: `success`
+                });
+              }
+            })
+                this.thisPagePatientPRRandMR.status = 1   //返回值部分
           }).catch(error => {
             console.log(error)
           })
