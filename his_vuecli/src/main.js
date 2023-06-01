@@ -24,7 +24,7 @@ Vue.use(ElementUI);
 Vue.config.productionTip = false
 
 //设置axios的基础url部分
-axios.defaults.baseURL = 'http://172.20.10.5:8080/';
+axios.defaults.baseURL = 'http://192.168.50.8:8080/';
 axios.defaults.withCredentials = true
 //将axios挂载到vue实例上，使用时就可以 this.$axios 这样使用了
 Vue.prototype.$axios = axios;

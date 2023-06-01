@@ -17,6 +17,7 @@ import DoctorTestHome from '../views/DoctorTestHome.vue'
 import DoctorInspectionHome from '../views/DoctorInspectionHome.vue'
 import DoctorDrugHome from '../views/DoctorDrugHome.vue'
 import DoctorHomeold from "@/views/DoctorHomeold.vue";
+import PatientHome from "@/views/PatientHome.vue";
 
 
 
@@ -94,9 +95,9 @@ const routes = [
     component: CashierHome
   },
   {
-    path: '/DoctorTestHome',
-    name: 'DoctorTestHome',
-    component: DoctorTestHome
+    path: '/PatientHome',
+    name: 'PatientHome',
+    component: PatientHome
   },
   {
     path: '/DoctorInspectionHome',

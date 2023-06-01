@@ -112,7 +112,7 @@
 
 
       <div class="doctorhome_right">
-        <el-tabs v-model="activeName" type="card" @tab-click="handleClick" class="doctorhome_right_tabs">
+        <el-tabs v-model="activeName" type="card" class="doctorhome_right_tabs">
           <el-tab-pane label="首页" name="first">主页！！！！！！</el-tab-pane>
           <el-tab-pane label="患者信息及病历" name="second">
 <!--            &lt;!&ndash; 患者病例可修改部分 诊断结果等&ndash;&gt;-->
