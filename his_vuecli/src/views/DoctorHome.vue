@@ -279,7 +279,7 @@
               </el-table>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="药品管理" name="fifth">
+          <el-tab-pane label="药品管理" name="forth">
             <!--                  开药-->
             <div id="app">
               <el-table   border max-height="600px" :data="tableDataDrug" class="tb-edit" style="width: 100%" highlight-current-row  >
@@ -327,6 +327,96 @@
               </el-table>
             </div>
           </el-tab-pane>
+            <el-tab-pane label="药品分类" name="fifth">
+                <!--                  开药-->
+                <div id="app">
+                    <el-dropdown>
+                        <el-button type="primary">
+                            药品类型<i class="el-icon-arrow-down el-icon--right"></i>
+                        </el-button>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item @click.native="updateSelectedType('处方药')">处方药</el-dropdown-item>
+                            <el-dropdown-item @click.native="updateSelectedType('非处方药')">非处方药</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                    <br>
+                    <el-table v-if="selectedType === '处方药'" :data="prescriptionDrugs" class="tb-edit" style="width: 100%" highlight-current-row>
+
+                            <el-table-column prop="medicine_name" label="药品名称" width="180">
+                            </el-table-column>
+                            <el-table-column label="药品编号" width="180">
+                                <template scope="scope">
+                                    <!--                                    <el-input size="small" v-model="scope.row.drformat" placeholder="请输入内容" ></el-input>-->
+                                    <span>{{scope.row.medicine_card}}</span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="单价" width="90">
+                                <template scope="scope">
+                                    <!--                                    <el-input size="small" v-model="scope.row.drconsumption" placeholder="请输入内容" ></el-input>-->
+                                    <span>{{scope.row.price}}</span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="库存数量" width="90">
+                                <template scope="scope">
+                                    <!--                                    <el-input size="small" v-model="scope.row.drtype" placeholder="请输入内容" ></el-input> -->
+                                    <span>{{scope.row.medicine_num}}</span>
+                                </template>
+                            </el-table-column>
+
+                            <el-table-column label="供应商" width="180">
+                                <template scope="scope">
+                                    <!--                                    <el-input size="small" v-model="scope.row.drmoney" placeholder="请输入内容" ></el-input> -->
+                                    <span>{{scope.row.vendor.vendor_name}}</span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="操作">
+                                <template scope="scope">
+                                    <!--                                <el-button size="small" @click="handleEdit(scope.$index)">编辑</el-button>-->
+                                    <el-button size="small" type="danger" @click="handleDelete(scope.$index,scope.row.medicine_id)">删除</el-button>
+                                </template>
+                            </el-table-column>
+
+                    </el-table>
+
+                    <el-table v-if="selectedType === '非处方药'" :data="nonPrescriptionDrugs" border>
+
+                            <el-table-column prop="medicine_name" label="药品名称" width="180">
+                            </el-table-column>
+                            <el-table-column label="药品编号" width="180">
+                                <template scope="scope">
+                                    <!--                                    <el-input size="small" v-model="scope.row.drformat" placeholder="请输入内容" ></el-input>-->
+                                    <span>{{scope.row.medicine_card}}</span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="单价" width="90">
+                                <template scope="scope">
+                                    <!--                                    <el-input size="small" v-model="scope.row.drconsumption" placeholder="请输入内容" ></el-input>-->
+                                    <span>{{scope.row.price}}</span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="库存数量" width="90">
+                                <template scope="scope">
+                                    <!--                                    <el-input size="small" v-model="scope.row.drtype" placeholder="请输入内容" ></el-input> -->
+                                    <span>{{scope.row.medicine_num}}</span>
+                                </template>
+                            </el-table-column>
+
+                            <el-table-column label="供应商" width="180">
+                                <template scope="scope">
+                                    <!--                                    <el-input size="small" v-model="scope.row.drmoney" placeholder="请输入内容" ></el-input> -->
+                                    <span>{{scope.row.vendor.vendor_name}}</span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="操作">
+                                <template scope="scope">
+                                    <!--                                <el-button size="small" @click="handleEdit(scope.$index)">编辑</el-button>-->
+                                    <el-button size="small" type="danger" @click="handleDelete(scope.$index,scope.row.medicine_id)">删除</el-button>
+                                </template>
+                            </el-table-column>
+                    </el-table>
+
+                </div>
+            </el-tab-pane>
         </el-tabs>
       </div>
     </div>
@@ -337,6 +427,9 @@ import AddFollow from "@/views/AddFollow.vue";
   export default {
     data() {
       return {
+          selectedType: '',
+          prescriptionDrugs: [], // 处方药数据
+          nonPrescriptionDrugs: [], // 非处方药数据
         pay:0,
         //就诊总数
         formtotal:0,
@@ -511,7 +604,7 @@ import AddFollow from "@/views/AddFollow.vue";
     },
     created() {
       this.docker_id = '1'
-      this.$axios.post('/follow/find',
+      this.$axios.post('follow/find',
           this.$qs.stringify(
               {
                 id:this.docker_id,
@@ -523,7 +616,7 @@ import AddFollow from "@/views/AddFollow.vue";
         console.log(error)
       })
 
-      this.$axios.post('/consultation/selectBydoctorId',
+      this.$axios.post('consultation/selectBydoctorId',
           this.$qs.stringify(
           {
             id:this.docker_id,
@@ -556,11 +649,22 @@ import AddFollow from "@/views/AddFollow.vue";
         //返回值部分
         console.log(response.data.data)
         this.tableDataDrug = response.data.data;
+        this.tableDataDrug.forEach( item => {
+            if (item.medicineType.type_name === '处方药') {
+              this.prescriptionDrugs.push(item);
+            } else if(item.medicineType.type_name === '非处方药') {
+              this.nonPrescriptionDrugs.push(item);
+            }
+        });
       }).catch(error => {
         console.log(error)
       })
   },
     methods:{
+        updateSelectedType(type) {
+            this.selectedType = type;
+            console.log(this.selectedType);
+        },
       phandleEdit(id){
         this.flag=true;
         if(this.flag){
@@ -602,7 +706,7 @@ import AddFollow from "@/views/AddFollow.vue";
       bosschange(puname){
         this.thisPagePatientname = puname
         //返回患者病例 挂号信息
-        this.$axios.post('/consultation/selectByPatientName',
+        this.$axios.post('consultation/selectByPatientName',
             this.$qs.stringify(
                 {
                   patient_name:puname
@@ -917,5 +1021,13 @@ import AddFollow from "@/views/AddFollow.vue";
   display: none
 }
 
-
+.el-dropdown {
+    vertical-align: top;
+}
+.el-dropdown + .el-dropdown {
+    margin-left: 15px;
+}
+.el-icon-arrow-down {
+    font-size: 12px;
+}
 </style>

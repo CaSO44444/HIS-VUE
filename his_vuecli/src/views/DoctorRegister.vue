@@ -154,7 +154,7 @@ export default {
         }
 
         return {
-            verificationUrl:"http://192.168.50.8:8080/common/kaptcha?d="+new Date()*1,
+            verificationUrl:"http://172.27.5.126:8080/common/kaptcha?d="+new Date()*1,
             department:{},
             ruleForm: {
                 username:'',
