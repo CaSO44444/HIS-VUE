@@ -23,47 +23,40 @@
                 </div>
                 未诊患者
                 <div class="doctorhome_lect_no">
-                        <el-table
-                                border
-                                stripe
-                                :data="noform"
-                                style="width: 100%"
-                                size="mini"
-                                :cell-style="{padding:'1px 0'}"
-                        >
-                            <el-table-column
-                                    prop="consultation_id"
-                                    label="挂号id"
-                                    width="120"
-                            />
-                            <el-table-column
-                                    prop="patient.name"
-                                    label="姓名"
-                                    width="120"
-                            />
-                            <el-table-column
-                                    prop=""
-                                    label="操作"
-                                    width="180">
-                                <template slot-scope="scope">
-                                    <el-button type="success" size="small" round @click="bosschange(scope.row.patient.name)">选择</el-button>
-                                    <!--                         获取索引-->
-                                    <!--                         {{scope.$index}}-->
-                                </template>
-                            </el-table-column>
-                            </el-table>
-                  <div class="block">
+                    <el-table
+                        border
+                        stripe
+                        :data="noform"
+                        style="width: 100%"
+                        size="mini"
+                        :cell-style="{ padding: '1px 0' }"
+                        height="200"
+                    >
+                        <el-table-column prop="consultation_id" label="挂号id" width="120" ></el-table-column>
+                        <el-table-column prop="patient.name" label="姓名" width="120"></el-table-column>
+                        <el-table-column prop="" label="操作" width="180">
+                            <template slot-scope="scope">
+                                <el-button type="success" size="small" round @click="bosschange(scope.row.patient.name)">
+                                    选择
+                                </el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
 
-                    <el-pagination
-                        @current-change="handleSizeChange"
-                        :current-page="noformpageNo"
-                        :page-size="4"
-                        layout="total, prev, pager, next, jumper"
-                        :total="noformtotal">
-                    </el-pagination>
-                  </div>
+                    <div class="block">
+                        <el-pagination
+                            background
+                            layout="total, sizes, prev, pager, next, jumper"
+                            :current-page="tablePage.pageNum"
+                            :page-size="tablePage.pageSize"
+                            :page-sizes="pageSizes"
+                            :total="noformtotal"
+                            @size-change="handleSizeChange"
+                            @current-change="handlePageChange"
+                        />
+                    </div>
                 </div>
-<!--                已疹患者-->
+                <!--                已疹患者-->
                 <div class="doctorhome_lect_yes" >
                     已诊患者
                     <el-table
@@ -98,13 +91,16 @@
                         </el-table-column>
                     </el-table>
                   <div class="block">
-                    <el-pagination
-                        @current-change="handleSizeChange2"
-                        :current-page="formpageNo"
-                        :page-size="4"
-                        layout="total, prev, pager, next, jumper"
-                        :total="formtotal">
-                    </el-pagination>
+                      <el-pagination
+                          background
+                          layout="total, sizes, prev, pager, next, jumper"
+                          :current-page="tablePage.pageNum"
+                          :page-size="tablePage.pageSize"
+                          :page-sizes="pageSizes"
+                          :total="formtotal"
+                          @size-change="formhandleSizeChange"
+                          @current-change="formhandlePageChange"
+                      />
                   </div>
                 </div>
             </el-card>
@@ -424,9 +420,16 @@
 <script>
 import AddMedicine from "@/views/AddMedicine.vue";
 import AddFollow from "@/views/AddFollow.vue";
+import axios from "axios";
   export default {
     data() {
       return {
+          tablePage: {
+              pageNum: 1, // 第几页
+              pageSize: 4, // 每页多少条,
+              total: 0
+          },
+          pageSizes: [4, 10, 20, 30],
           selectedType: '',
           prescriptionDrugs: [], // 处方药数据
           nonPrescriptionDrugs: [], // 非处方药数据
@@ -620,11 +623,10 @@ import AddFollow from "@/views/AddFollow.vue";
           this.$qs.stringify(
           {
             id:this.docker_id,
-            status:0
+            status:0,
           }
       )
       ).then(response => {      //返回值部分
-        this.noform = response.data.data
         this.noformtotal = response.data.data.length
       }).catch(error => {
         console.log(error)
@@ -638,11 +640,40 @@ import AddFollow from "@/views/AddFollow.vue";
               }
           )
       ).then(response => {      //返回值部分
-        this.form = response.data.data
         this.formtotal = response.data.data.length
       }).catch(error => {
         console.log(error)
       })
+
+        this.$axios.post('consultation/selectBydoctorIdLim',
+            this.$qs.stringify(
+                {
+                    id:this.docker_id,
+                    status:1,
+                    pageSize: this.tablePage.pageSize,
+                    pageNum: this.tablePage.pageNum
+                }
+            )
+        ).then(response => {      //返回值部分
+            this.form = response.data.data
+        }).catch(error => {
+            console.log(error)
+        })
+
+        this.$axios.post('consultation/selectBydoctorIdLim',
+            this.$qs.stringify(
+                {
+                    id:this.docker_id,
+                    status:0,
+                    pageSize: this.tablePage.pageSize,
+                    pageNum: this.tablePage.pageNum
+                }
+            )
+        ).then(response => {      //返回值部分
+            this.noform = response.data.data
+        }).catch(error => {
+            console.log(error)
+        })
 
       this.$axios.get('medicine/queryall',
       ).then(response => {
@@ -661,6 +692,74 @@ import AddFollow from "@/views/AddFollow.vue";
       })
   },
     methods:{
+        handlePageChange(currentPage) {
+            this.tablePage.pageNum = currentPage
+            this.$axios.post('consultation/selectBydoctorIdLim',
+                this.$qs.stringify(
+                    {
+                        id:this.docker_id,
+                        status:0,
+                          pageSize: this.tablePage.pageSize,
+                        pageNum: this.tablePage.pageNum
+                    }
+                )
+            ).then(response => {      //返回值部分
+                this.noform = response.data.data
+            }).catch(error => {
+                console.log(error)
+            })
+            // 在此刷新数据
+        },
+        formhandlePageChange(currentPage){
+            this.$axios.post('consultation/selectBydoctorIdLim',
+                this.$qs.stringify(
+                    {
+                        id:this.docker_id,
+                        status:1,
+                        pageSize: this.tablePage.pageSize,
+                        pageNum: this.tablePage.pageNum
+                    }
+                )
+            ).then(response => {      //返回值部分
+                this.form = response.data.data
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+        handleSizeChange(pageSize) {
+            this.tablePage.pageSize = pageSize
+            this.$axios.post('consultation/selectBydoctorIdLim',
+                this.$qs.stringify(
+                    {
+                        id:this.docker_id,
+                        status:0,
+                        pageSize: this.tablePage.pageSize,
+                        pageNum: this.tablePage.pageNum
+                    }
+                )
+            ).then(response => {      //返回值部分
+                this.noform = response.data.data
+            }).catch(error => {
+                console.log(error)
+            })
+            // 在此刷新数据
+        },
+        formhandleSizeChange(pageSize){
+            this.$axios.post('consultation/selectBydoctorIdLim',
+                this.$qs.stringify(
+                    {
+                        id:this.docker_id,
+                        status:1,
+                        pageSize: this.tablePage.pageSize,
+                        pageNum: this.tablePage.pageNum
+                    }
+                )
+            ).then(response => {      //返回值部分
+                this.form = response.data.data
+            }).catch(error => {
+                console.log(error)
+            })
+        },
         updateSelectedType(type) {
             this.selectedType = type;
             console.log(this.selectedType);
