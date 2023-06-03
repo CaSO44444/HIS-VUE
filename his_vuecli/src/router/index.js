@@ -165,19 +165,19 @@ router.beforeEach((to, from, next) => {
                                 next();
                             } else if (role === '2') {
                                 // 患者角色，允许访问特定路由
-                                if (to.name === 'PatientHome' || to.name === 'PatientChangePassword') {
+                                if (to.name === 'PatientHome' || to.name === 'Patientxxx') {
                                     next();
                                 } else {
                                     // 没有权限访问其他路由，跳转到错误页面或其他逻辑处理
-                                    next({path: '/'});
+                                    next({path: '/PatientHome'});
                                 }
                             } else if (role === '1') {
                                 // 医生角色，允许访问特定路由
-                                if (to.name === 'DoctorHome' || to.name === 'DoctorChangePassword') {
+                                if (to.name === 'DoctorHome' || to.name === 'Doctorxxx') {
                                     next();
                                 } else {
                                     // 没有权限访问其他路由，跳转到错误页面或其他逻辑处理
-                                    next({path: '/'});
+                                    next({path: '/DoctorHome'});
                                 }
                             } else {
                                 // 未知角色，跳转到错误页面或其他逻辑处理
