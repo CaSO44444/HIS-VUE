@@ -1,7 +1,11 @@
 <template>
   <div class="patienthome">
+      <el-row type="flex" justify="end">
+          <el-button @click="LogOut">退出登陆</el-button>
+      </el-row>
     <div class="patienthome_right">
       <el-tabs v-model="activeName" type="card" class="patienthome_right_tabs">
+
         <el-tab-pane label="首页" name="first">主页！！！！！！</el-tab-pane>
         <el-tab-pane label="预约" name="second">
           <div class="patienthome_right_tabs_patientinf_form">
@@ -168,6 +172,14 @@ export default {
     })
   },
   methods:{
+      LogOut(){
+          function deleteCookie(name) {
+              document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+          }
+          deleteCookie("token")
+
+          this.$router.push("/")
+      },
     resehandleEdit(index){
       this.activeName = 'third'
       this.PatientConsultation.type  = this.reservation[index].type

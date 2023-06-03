@@ -65,14 +65,13 @@
                     )
                 ).then(response=>{      //返回值部分
                     this.inf = response.data
-                    if(this.inf.msg === "success"&&this.inf.data.role === 0){
-
+                    if(this.inf.msg === "success"&&this.inf.data.role === 1){  // 管理员为0，医生为1，患者为2
+                        document.cookie = `token=${this.inf.data.token};`;
                         this.$router.push({
-                            path:'/DoctorHome' ,               	//目标URL，为注册的路由
-
-                            query:{
-                                username:this.form.username      	//传入参数，参数会写入URL，params用法同query，只不过参数不会写进URL
-                            }
+                            path:'/DoctorHome'               	//目标URL，为注册的路由
+                            // query:{
+                            //     username:this.form.username      	//传入参数，参数会写入URL，params用法同query，只不过参数不会写进URL
+                            // }
 
                         })
                     }
@@ -138,7 +137,7 @@
                 })
             },
             Register(){
-                this.$router.push('/DoctorRegiste');
+                this.$router.push('/DoctorRegister');
             },
             nopassword(){
                 this.$router.push('/DoctorForgetPassword');

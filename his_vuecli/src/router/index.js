@@ -4,7 +4,7 @@ import About from '../views/About'
 import Home from '../views/Home.vue'
 import DoctorLogin from '../views/DoctorLogin.vue'
 import PatientLogin from '../views/PatientLogin.vue'
-import DoctorRegiste from '../views/DoctorRegister.vue'
+import DoctorRegister from '../views/DoctorRegister.vue'
 import PatientRegister from '../views/PatientRegister.vue'
 import DoctorForgetPassword from '../views/DoctorForgetPassword.vue'
 import PatientForgetPassword from '../views/PatientForgetPassword.vue'
@@ -18,7 +18,7 @@ import DoctorInspectionHome from '../views/DoctorInspectionHome.vue'
 import DoctorDrugHome from '../views/DoctorDrugHome.vue'
 import DoctorHomeold from "@/views/DoctorHomeold.vue";
 import PatientHome from "@/views/PatientHome.vue";
-
+import axios from "axios";
 
 
 Vue.use(VueRouter)
@@ -45,9 +45,9 @@ const routes = [
     component: PatientLogin
   },
   {
-    path: '/DoctorRegiste',
-    name: 'DoctorRegiste',
-    component: DoctorRegiste
+    path: '/DoctorRegister',
+    name: 'DoctorRegister',
+    component: DoctorRegister
   },
   {
     path: '/Doctortest1',
@@ -111,8 +111,54 @@ const routes = [
   },
 ]
 
+
+
+
+const cors = require("cors");
 const router = new VueRouter({
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.name === 'PatientLogin' || to.name === 'DoctorLogin' || to.name === 'Home') {
+    // 如果是登录界面，则直接允许访问
+    next();
+  }
+  else {
+    const m = String(document.cookie).match(new RegExp('(?:^| )' + 'token' + '(?:(?:=([^;]*))|;|$)'));
+    let token = "";
+    if (m){
+      token = decodeURIComponent(m[1]);
+    }
+    console.log(token)
+    if (!token) {
+      // 如果没有JWT令牌，跳转到'/'路由
+      next('/');
+    } else {
+      // 校验 token 合法性
+      axios({
+        url: 'http://172.27.5.126:8080/checkToken',
+        method: 'get',
+        headers: {
+          token: token
+        }
+      }).then(res => {
+            if (res.data.data != 202) {
+              // 如果校验失败，跳转到错误页面
+              console.log('校验失败');
+              next({ path: '/' });
+            } else {
+              // 校验成功，允许访问路由
+              next();
+            }
+          })
+          .catch(error => {
+            // 处理请求错误
+            console.error(error);
+            next({ path: '/' });
+          });
+    }
+  }
+});
 
 export default router

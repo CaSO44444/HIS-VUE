@@ -1,6 +1,7 @@
 <template>
     <div class="doctorhome">
-<!--        侧边栏  显示所有桓泽和的挂号信息-->
+
+        <!--        侧边栏  显示所有桓泽和的挂号信息-->
         <div class="doctorhome_lect">
 <!--            采用卡片模式-->
             <el-card class="box-card">
@@ -108,6 +109,9 @@
 
 
       <div class="doctorhome_right">
+          <el-row type="flex" justify="end">
+              <el-button @click="LogOut">退出登陆</el-button>
+          </el-row>
         <el-tabs v-model="activeName" type="card" class="doctorhome_right_tabs">
           <el-tab-pane label="首页" name="first">主页！！！！！！</el-tab-pane>
           <el-tab-pane label="患者信息及病历" name="second">
@@ -414,6 +418,7 @@
                 </div>
             </el-tab-pane>
         </el-tabs>
+
       </div>
     </div>
 </template>
@@ -692,6 +697,14 @@ import axios from "axios";
       })
   },
     methods:{
+        LogOut(){
+            function deleteCookie(name) {
+                document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+            }
+            deleteCookie("token")
+
+            this.$router.push("/")
+        },
         handlePageChange(currentPage) {
             this.tablePage.pageNum = currentPage
             this.$axios.post('consultation/selectBydoctorIdLim',
