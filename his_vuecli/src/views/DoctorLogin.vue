@@ -130,6 +130,7 @@
                                 });
                             }
                         });
+                        this.flushcode();
                     }
 
                 }).catch(error=>{
@@ -140,7 +141,10 @@
                 this.$router.push('/DoctorRegister');
             },
             nopassword(){
-                this.$router.push('/DoctorForgetPassword');
+                // this.$router.push('/DoctorForgetPassword');
+                alert("请联系管理员");
+                this.$router.push("/DoctorLogin");
+                this.flushcode();
             },
             flushcode(){
                 this.verificationUrl="http://172.27.5.126:8080/common/kaptcha?d="+new Date()*1

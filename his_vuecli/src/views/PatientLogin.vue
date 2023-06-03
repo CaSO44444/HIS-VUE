@@ -84,6 +84,7 @@ export default {
               });
             }
           });
+            this.flushcode();
         }
         // if(this.inf === "管理员"){
         //     this.$router.push({
@@ -140,6 +141,7 @@ export default {
               });
             }
           });
+            this.flushcode();
         }
 
       }).catch(error=>{
@@ -150,7 +152,8 @@ export default {
       this.$router.push('/PatientRegister');
     },
     nopassword(){
-      this.$router.push('/PatientForgetPassword');
+      alert("请联系管理员");
+        this.flushcode();
     },
     flushcode(){
       this.verificationUrl="http://172.27.5.126:8080/common/kaptcha?d="+new Date()*1
