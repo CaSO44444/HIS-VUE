@@ -144,7 +144,7 @@ router.beforeEach((to, from, next) => {
             } else {
                 // 校验 token 合法性
                 axios({
-                    url: 'http://172.27.5.126:8080/checkToken',
+                    url: 'http://127.0.0.1:8080/checkToken',
                     method: 'get',
                     headers: {
                         token: token

@@ -4,16 +4,15 @@
         <el-row type="flex" justify="end">
             <el-button @click="LogOut">退出登陆</el-button>
         </el-row>
-        个人信息
         <div class="patienthome_lect">
+            个人信息
+            <br><br>
             <el-table
                 border
                 stripe
                 :data="patientObject"
                 style="width: 100%"
-                size="mini"
                 :cell-style="{ padding: '1px 0' }"
-                height="200"
             >
                 <el-table-column prop="name" label="姓名" width="120" ></el-table-column>
                 <el-table-column prop="tel" label="电话" width="120"></el-table-column>

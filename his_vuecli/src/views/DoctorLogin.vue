@@ -43,7 +43,7 @@
     export default {
         data(){
             return{
-              verificationUrl:"http://172.27.5.126:8080/common/kaptcha?d="+new Date()*1,
+              verificationUrl:"http://127.0.0.1:8080/common/kaptcha?d="+new Date()*1,
                 form:{
                     username:'',
                     password:'',
@@ -147,7 +147,7 @@
                 this.flushcode();
             },
             flushcode(){
-                this.verificationUrl="http://172.27.5.126:8080/common/kaptcha?d="+new Date()*1
+                this.verificationUrl="http://127.0.0.1:8080/common/kaptcha?d="+new Date()*1
             }
         },
 
