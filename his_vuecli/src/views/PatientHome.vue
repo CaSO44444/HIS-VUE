@@ -131,6 +131,7 @@
 </template>
 <script>
 import th from "element-ui/src/locale/lang/th";
+import axios from "axios";
 
 export default {
     data() {
@@ -188,21 +189,26 @@ export default {
     },
     components: {},
     created() {
-        this.patient_id = '1'
-        this.activeName = 'first'
-        this.$axios.get('/reservation/query').then(response => {      //返回值部分
+        this.$axios.get('/checkToken').then(response => {
+          //返回值部分
+          this.patient_id  = response.data.data.id
+          this.activeName = 'first'
+          this.$axios.get('/reservation/query').then(response => {      //返回值部分
             this.reservation = response.data.data
             this.reservationtotal = response.data.data.length
-        }).catch(error => {
+          }).catch(error => {
             console.log(error)
-        })
+          })
 
-        this.$axios.post('/patient/queryById',this.$qs.stringify({
+          this.$axios.post('/patient/queryById',this.$qs.stringify({
             id: this.patient_id
-        })).then(response => {      //返回值部分
+          })).then(response => {      //返回值部分
             this.patientObject = response.data.data
-        }).catch(error => {
+          }).catch(error => {
             console.log(error)
+          })
+        }).catch(error => {
+          console.log(error)
         })
     },
     methods: {

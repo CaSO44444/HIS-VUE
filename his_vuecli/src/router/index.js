@@ -146,9 +146,9 @@ router.beforeEach((to, from, next) => {
                 axios({
                     url: 'http://127.0.0.1:8080/checkToken',
                     method: 'get',
-                    headers: {
-                        token: token
-                    }
+                    // headers: {
+                    //     token: token
+                    // }
                 })
                     .then(res => {
                         if (res.data.msg !== "success" && res.data.code !== 0) {
