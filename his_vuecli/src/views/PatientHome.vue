@@ -136,18 +136,26 @@ import axios from "axios";
 export default {
     data() {
         return {
+            Dept:[
+                {
+              dept_name: '',
+              price:''
+            }
+            ],
             patient_id: '',
             activeName: '',
             reservationtotal: '',
-            Patient: {
-                name: '',
-                id: '',
-            },
             patientstotal: '',
             patientObject: {
-                name: '',
+                address:'',
+                age:'',
+              follow:'',
+              gender:'',
+              id:'',
+              id_card:'',
+                name: '12313',
+              status: '',
                 tel: '',
-                id_card: ''
             },
             reservation: [
                 {
@@ -193,13 +201,6 @@ export default {
           //返回值部分
           this.patient_id  = response.data.data.id
           this.activeName = 'first'
-          this.$axios.get('/reservation/query').then(response => {      //返回值部分
-            this.reservation = response.data.data
-            this.reservationtotal = response.data.data.length
-          }).catch(error => {
-            console.log(error)
-          })
-
           this.$axios.post('/patient/queryById',this.$qs.stringify({
             id: this.patient_id
           })).then(response => {      //返回值部分
@@ -210,6 +211,18 @@ export default {
         }).catch(error => {
           console.log(error)
         })
+      this.$axios.get('/reservation/query').then(response => {      //返回值部分
+        this.reservation = response.data.data
+        this.reservationtotal = response.data.data.length
+      }).catch(error => {
+        console.log(error)
+      })
+
+      this.$axios.get('/dept/query').then(response => {      //返回值部分
+        this.Dept = response.data.data
+      }).catch(error => {
+        console.log(error)
+      })
     },
     methods: {
         LogOut() {
@@ -223,10 +236,13 @@ export default {
         },
         resehandleEdit(index) {
             this.activeName = 'third'
+            this.PatientConsultation.patientName = this.patientObject[0].name
             this.PatientConsultation.type = this.reservation[index].type
             this.PatientConsultation.doctorName = this.reservation[index].doctor.doctor_name
-            this.PatientConsultation.patientName = this.Patient.name
             this.PatientConsultation.deptName = this.reservation[index].dept.dept_name
+            this.PatientConsultation.con_num = Math.floor((new Date().getTime() % 1000) + 1)
+            this.PatientConsultation.money = this.Dept.find(item => item.dept_name==="外科").price
+
 
         },
         addPatientConsultation() {
