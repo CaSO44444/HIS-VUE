@@ -32,16 +32,24 @@
       <el-col :span="12">
       <el-form-item label="管理者">
       <el-select v-model="tableDataDrug.vendor.manager.manager_name" @change="$forceUpdate()" placeholder="请选择管理者">
-        <el-option label="处方药" value="处方药"></el-option>
-        <el-option label="非处方药" value="非处方药"></el-option>
+        <el-option
+            v-for="item in manager"
+            :key="item.manager_name"
+            :label="item.manager_name"
+            :value="item.manager_name">
+        </el-option>
       </el-select>
       </el-form-item>
       </el-col>
       <el-col :span="12">
       <el-form-item label="供应商">
       <el-select v-model="tableDataDrug.vendor.vendor_name" @change="$forceUpdate()" placeholder="请选择供应商">
-        <el-option label="处方药" value="处方药"></el-option>
-        <el-option label="非处方药" value="非处方药"></el-option>
+        <el-option
+            v-for="item in vendor"
+            :key="item.vendor_name"
+            :label="item.vendor_name"
+            :value="item.vendor_name">
+        </el-option>
       </el-select>
       </el-form-item>
       </el-col>
@@ -57,7 +65,34 @@
 <script>
 export default {
   data(){
-    return {}
+    return {
+      manager:[
+        {
+          manager_id: '',
+          manager_name: ''
+        }
+        ],
+      vendor:[
+          {
+        address: '',
+        doctor: {
+          doctor_id: '',
+          doctor_name: ''
+        },
+        level: '',
+        manager: {
+          manager_id:'',
+          manager_name: ''
+        },
+        num: '',
+        province: '',
+        status: '',
+        type: '',
+        vendor_id: '',
+        vendor_name: ''
+      }
+      ],
+    }
   },
   name: 'addmedicine',
   // props中存储父组件中默认传过来的layerid和lydata值，用于在子组件中关闭父组件的弹框
@@ -75,6 +110,21 @@ export default {
     tableDataDrug: {
       type: Object,
     },
+  },
+  created() {
+    this.$axios.get('/manager/query'
+    ).then(response => {      //返回值部分
+      this.manager = response.data.data;
+    }).catch(error => {
+      console.log(error)
+    })
+
+    this.$axios.get('/vendor/queryall'
+    ).then(response => {      //返回值部分
+      this.vendor = response.data.data;
+    }).catch(error => {
+      console.log(error)
+    })
   },
   methods: {
     // 添加功能函数

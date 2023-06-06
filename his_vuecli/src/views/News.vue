@@ -13,20 +13,7 @@
       </ul>
       <div></div>
     </div>
-    <div class="home_banner" @mouseover="clear_animation()" @mouseleave="animation()">
-      <img :src="imgs[active_idx]">
-      <div class="btn left" @click="active_idx=(active_idx+imgs.length-1)%imgs.length" style="left: 0;">&lt;</div>
-      <div class="btn right" @click="active_idx=(active_idx+1)%imgs.length" style="right:0">&gt;</div>
-      <div class="dot-list">
-        <div style="display: flex;flex-direction: row;gap: 4px;">
-          <div v-for="(_, i) in imgs" :class="['dot', {'active': i===active_idx}]" @click="change(i)"></div>
-        </div>
-      </div>
-    </div>
 
-    <div class="home_news">
-      <i class="el-icon-bell" style="margin-right: 8px"></i>本院将更新系统，请立刻更新。
-    </div>
     <div class="home_notification">
       <div
           style="display: flex;  justify-content: space-between; border-bottom: gray 1px solid; padding-bottom: 2px;">
@@ -35,7 +22,7 @@
       </div>
 
       <div class="home_notification_main">
-        <div v-for="i in Array(4)" class="home_notification_item">
+        <div v-for="i in Array(14)" class="home_notification_item">
           <div class="home_notification_time">
             <div style="font-size: 1.6rem">06</div>
             <div style="font-size: 0.8rem">2023/04</div>
@@ -45,73 +32,21 @@
           </div>
         </div>
       </div>
-
-      <br><br><br>
-      <div
-          style="display: flex;  justify-content: space-between; border-bottom: gray 1px solid; padding-bottom: 2px;">
-        <div>医生介绍</div>
-        <div class="btn home_notification_more" @click="gotodoctors">更多 <span style="vertical-align: center">+</span></div>
-      </div>
-      <br>
-      <div style="display: flex;flex-wrap: wrap; gap:300px;justify-content: center;" >
-        <div v-for="_ in Array(3)" class="doctor_item">
-          <img src="https://upload.cd5120.com/2019/0812/thumb_140_180_20190812031637259.jpg" alt="">
-          <div style="text-align: center;font-weight: bold">张政宇 <span
-              style="margin-left: 6px;color: #1d8548;font-weight: normal">主任医生</span></div>
-          <div style="text-align: center;color: #1d8548;font-weight: bold;padding: 6px 0;">肿瘤科</div>
-          <div style="font-size: 0.8rem;padding:0 10% 10%;text-align: justify"><span style="font-weight: bold">擅长：</span>率先在我院开展肿瘤化疗、免疫治疗、肿瘤内分泌治疗，...</div>
-        </div>
-      </div>
-
     </div>
-
   </div>
 </template>
-
 <script>
-// @ is an alias to /src
-
-
 export default {
-  name: 'Home',
-  components: {},
-  data() {
-    return {
-      imgs: ["https://oss.cd5120.com/20230605/092733457.jpg", "https://oss.cd5120.com/20230605/092825901.jpg", "https://oss.cd5120.com/20230605/092940303.jpg"],
-      active_idx: 0,
-      interval_id: null
-    };
-  },
-  methods: {
-    handleClick(tab, event) {
-      console.log(tab, event);
-    },
-    godoctorlogin() {
-      this.$router.push('/DoctorLogin')
-    },
-    gopatientlogin() {
-      this.$router.push('/PatientLogin')
-    },
-    gotonews(){
-      this.$router.push('/News')
-    },
-    gotodoctors(){
-      this.$router.push('/Doctors')
-    },
-    change(i) {
-      this.active_idx = i;
-    },
-    animation() {
-      this.interval_id = setInterval(() => this.active_idx = (this.active_idx + 1) % this.imgs.length, 2000);
-    },
-    clear_animation() {
-      clearInterval(this.interval_id);
+  data(){
+    return{
+      username:this.$route.query.username
     }
   },
-  mounted() {
-    this.animation();
+  components: {
+
   }
 }
+
 </script>
 <style scoped>
 * {

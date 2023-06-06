@@ -275,7 +275,7 @@
                   <span>{{ scope.row.status }}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="操作">
+              <el-table-column label="操作" width="180">
                 <template scope="scope">
                   <el-button size="small" @click="phandleEdit(scope.$index)">编辑</el-button>
                   <el-button size="small" type="danger" @click="phandleDelete(scope.$index,scope.row.id)">删除
@@ -324,7 +324,7 @@
                   <span>{{ scope.row.vendor.vendor_name }}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="操作">
+              <el-table-column label="操作" width="180">
                 <template scope="scope">
                   <el-button size="small" @click="handleEdit(scope.$index)">编辑</el-button>
                   <el-button size="small" type="danger" @click="handleDelete(scope.$index,scope.row.medicine_id)">删除
@@ -376,9 +376,9 @@
                   <span>{{ scope.row.vendor.vendor_name }}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="操作">
+              <el-table-column label="操作" width="180">
                 <template scope="scope">
-                  <!--                                <el-button size="small" @click="handleEdit(scope.$index)">编辑</el-button>-->
+                  <el-button size="small" @click="preDrugshandleEdit(scope.$index)">编辑</el-button>
                   <el-button size="small" type="danger" @click="handleDelete(scope.$index,scope.row.medicine_id)">删除
                   </el-button>
                 </template>
@@ -415,9 +415,9 @@
                   <span>{{ scope.row.vendor.vendor_name }}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="操作">
+              <el-table-column label="操作" width="180">
                 <template scope="scope">
-                  <!--                                <el-button size="small" @click="handleEdit(scope.$index)">编辑</el-button>-->
+                  <el-button size="small" @click="nonPreDrugshandleEdit(scope.$index)">编辑</el-button>
                   <el-button size="small" type="danger" @click="handleDelete(scope.$index,scope.row.medicine_id)">删除
                   </el-button>
                 </template>
@@ -435,6 +435,7 @@
 <script>
 import AddMedicine from "@/views/AddMedicine.vue";
 import AddFollow from "@/views/AddFollow.vue";
+import AddDrugs from "@/views/AddDrugs.vue";
 
 export default {
   data() {
@@ -621,71 +622,75 @@ export default {
     AddFollow
   },
   created() {
-    this.docker_id = '1'
-    this.$axios.post('follow/find',
-        this.$qs.stringify(
-            {
-              id: this.docker_id,
-            }
-        )
-    ).then(response => {      //返回值部分
-      this.PatientFollow = response.data.data
-    }).catch(error => {
-      console.log(error)
-    })
+    this.$axios.get('/checkToken').then(response => {
+      this.docker_id = response.data.data.id
+      this.$axios.post('follow/find',
+          this.$qs.stringify(
+              {
+                id: this.docker_id,
+              }
+          )
+      ).then(response => {      //返回值部分
+        this.PatientFollow = response.data.data
+      }).catch(error => {
+        console.log(error)
+      })
 
-    this.$axios.post('consultation/selectBydoctorId',
-        this.$qs.stringify(
-            {
-              id: this.docker_id,
-              status: 0,
-            }
-        )
-    ).then(response => {      //返回值部分
-      this.noformtotal = response.data.data.length
-    }).catch(error => {
-      console.log(error)
-    })
+      this.$axios.post('consultation/selectBydoctorId',
+          this.$qs.stringify(
+              {
+                id: this.docker_id,
+                status: 0,
+              }
+          )
+      ).then(response => {      //返回值部分
+        this.noformtotal = response.data.data.length
+      }).catch(error => {
+        console.log(error)
+      })
 
-    this.$axios.post('consultation/selectBydoctorId',
-        this.$qs.stringify(
-            {
-              id: this.docker_id,
-              status: 1
-            }
-        )
-    ).then(response => {      //返回值部分
-      this.formtotal = response.data.data.length
-    }).catch(error => {
-      console.log(error)
-    })
+      this.$axios.post('consultation/selectBydoctorId',
+          this.$qs.stringify(
+              {
+                id: this.docker_id,
+                status: 1
+              }
+          )
+      ).then(response => {      //返回值部分
+        this.formtotal = response.data.data.length
+      }).catch(error => {
+        console.log(error)
+      })
 
-    this.$axios.post('consultation/selectBydoctorIdLim',
-        this.$qs.stringify(
-            {
-              id: this.docker_id,
-              status: 1,
-              pageSize: this.tablePage.pageSize,
-              pageNum: this.tablePage.pageNum
-            }
-        )
-    ).then(response => {      //返回值部分
-      this.form = response.data.data
-    }).catch(error => {
-      console.log(error)
-    })
+      this.$axios.post('consultation/selectBydoctorIdLim',
+          this.$qs.stringify(
+              {
+                id: this.docker_id,
+                status: 1,
+                pageSize: this.tablePage.pageSize,
+                pageNum: this.tablePage.pageNum
+              }
+          )
+      ).then(response => {      //返回值部分
+        this.form = response.data.data
+      }).catch(error => {
+        console.log(error)
+      })
 
-    this.$axios.post('consultation/selectBydoctorIdLim',
-        this.$qs.stringify(
-            {
-              id: this.docker_id,
-              status: 0,
-              pageSize: this.tablePage.pageSize,
-              pageNum: this.tablePage.pageNum
-            }
-        )
-    ).then(response => {      //返回值部分
-      this.noform = response.data.data
+      this.$axios.post('consultation/selectBydoctorIdLim',
+          this.$qs.stringify(
+              {
+                id: this.docker_id,
+                status: 0,
+                pageSize: this.tablePage.pageSize,
+                pageNum: this.tablePage.pageNum
+              }
+          )
+      ).then(response => {      //返回值部分
+        this.noform = response.data.data
+      }).catch(error => {
+        console.log(error)
+      })
     }).catch(error => {
       console.log(error)
     })
@@ -791,7 +796,7 @@ export default {
       this.selectedType = type;
       console.log(this.selectedType);
     },
-    phandleEdit(id) {
+    preDrugshandleEdit(id) {
       this.flag = true;
       if (this.flag) {
         this.$layer.iframe({
@@ -801,10 +806,29 @@ export default {
           shade: true,
           offset: 'auto',
           content: {
-            content: AddFollow,//传递的组件主线
+            content: AddDrugs,//传递的组件主线
             parent: this,
             data: {
-              PatientFollow: this.PatientFollow[id]
+              prescriptionDrugs: this.prescriptionDrugs[id]
+            }
+          }
+        })
+      }
+    },
+    nonPreDrugshandleEdit(id) {
+      this.flag = true;
+      if (this.flag) {
+        this.$layer.iframe({
+          type: 2,
+          title: "添加",
+          area: ['800px', '500px'],
+          shade: true,
+          offset: 'auto',
+          content: {
+            content: AddDrugs,//传递的组件主线
+            parent: this,
+            data: {
+              prescriptionDrugs: this.nonPrescriptionDrugs[id]
             }
           }
         })
@@ -824,6 +848,25 @@ export default {
             parent: this,
             data: {
               tableDataDrug: this.tableDataDrug[id]
+            }
+          }
+        })
+      }
+    },
+    phandleEdit(id) {
+      this.flag = true;
+      if (this.flag) {
+        this.$layer.iframe({
+          type: 2,
+          title: "添加",
+          area: ['800px', '500px'],
+          shade: true,
+          offset: 'auto',
+          content: {
+            content: AddFollow,//传递的组件主线
+            parent: this,
+            data: {
+              PatientFollow: this.PatientFollow[id]
             }
           }
         })

@@ -22,11 +22,11 @@
           <img src="https://i03piccdn.sogoucdn.com/dc8a5a1e5b364703" style="width: 6rem;height: 6rem;">
         </div>
         <div class="key">姓名</div>
-        <div class="value">{{ patientObject.name }}</div>
+        <div class="value">{{ patientObject[0].name }}</div>
         <div class="key">证件号</div>
-        <div class="value">{{ patientObject.id_card }}</div>
+        <div class="value">{{ patientObject[0].id_card }}</div>
         <div class="key">联系方式</div>
-        <div class="value">{{ patientObject.tel }}</div>
+        <div class="value">{{ patientObject[0].tel }}</div>
         <div style="text-align: center;margin: 2rem 0">
           <el-button type="danger" @click="LogOut">退出登陆</el-button>
         </div>
@@ -87,11 +87,6 @@
 
         <div @click="activeName='挂号'" :style="{'display': activeName==='挂号'? 'block': 'none'}">
           <el-form ref="form" :model="PatientConsultation" label-width="160px">
-            <!--          <el-col :span="12">-->
-            <!--            <el-form-item label="部门">-->
-            <!--              <el-input v-model="PatientConsultation.type" @input="$forceUpdate()"></el-input>-->
-            <!--            </el-form-item>-->
-            <!--          </el-col>-->
             <el-col :span="12">
               <el-form-item label="负责医生">
                 <el-input v-model="PatientConsultation.doctorName" @input="$forceUpdate()"></el-input>
@@ -134,7 +129,7 @@
           </el-form>
         </div>
         <div @click="activeName='费用支付'" :style="{'display': activeName==='费用支付'? 'block': 'none'}">
-          <el-tab-pane label="" name="fourth"></el-tab-pane>
+          <el-button type="primary">支付</el-button>
         </div>
       </div>
     </div>
@@ -145,18 +140,20 @@
 export default {
   data() {
     return {
+      Dept:[
+        {
+          dept_name: '',
+          price:''
+        }
+      ],
       patient_id: '',
       activeName: '主页',
       reservationtotal: '',
-      Patient: {
-        name: '',
-        id: '',
-      },
       patientstotal: '',
       patientObject: {
-        name: '张政宇测试',
-        tel: 'test',
-        id_card: '366111299271937911'
+        name: '',
+        tel: '',
+        id_card: ''
       },
       reservation: [
         {
@@ -203,7 +200,15 @@ export default {
       this.patient_id = response.data.data.id
       this.$axios.get('/reservation/query').then(response => {      //返回值部分
         this.reservation = response.data.data
+        console.log(this.reservation)
         this.reservationtotal = response.data.data.length
+        this.reservation.forEach(item => {
+          if (item.status === 0) {
+            item.status="不可预约"
+          } else if (item.status === 1) {
+            item.status="可预约"
+          }
+        })
       }).catch(error => {
         console.log(error)
       })
@@ -215,6 +220,12 @@ export default {
       }).catch(error => {
         console.log(error)
       })
+    }).catch(error => {
+      console.log(error)
+    })
+
+    this.$axios.get('/dept/query').then(response => {      //返回值部分
+      this.Dept = response.data.data
     }).catch(error => {
       console.log(error)
     })
@@ -233,22 +244,42 @@ export default {
       this.$router.push("/")
     },
     resehandleEdit(index) {
-      this.activeName = 'third'
       this.PatientConsultation.patientName = this.patientObject[0].name
-      this.PatientConsultation.type = this.reservation[index].type
+      this.PatientConsultation.patientId = this.patient_id
+      this.PatientConsultation.type = "门诊"
       this.PatientConsultation.doctorName = this.reservation[index].doctor.doctor_name
+      console.log(this.reservation[index].doctor.doctor_id)
+      this.PatientConsultation.doctorId = this.reservation[index].doctor.doctor_id
       this.PatientConsultation.deptName = this.reservation[index].dept.dept_name
+      this.PatientConsultation.deptId = this.reservation[index].dept.dept_id
       this.PatientConsultation.con_num = Math.floor((new Date().getTime() % 1000) + 1)
       this.PatientConsultation.money = this.Dept.find(item => item.dept_name===this.PatientConsultation.deptName).price
-
+      this.activeName = "挂号"
     },
     addPatientConsultation() {
-      console.log(this.PatientConsultation)
       this.$axios.post('/consultation/add', this.PatientConsultation).then(response => {
         console.log(response.data)
         //返回值部分
         // this.reservation = response.data.data
         // this.reservationtotal = response.data.data.length
+      }).catch(error => {
+        console.log(error)
+      })
+
+      this.$axios.post('/patient/editById', this.$qs.stringify({
+            patient_ID: this.patient_id,
+            doctor_ID:this.PatientConsultation.doctorId
+      }
+      )).then(response => {
+        //返回值部分
+        this.$alert('', '挂号成功', {
+          confirmButtonText: '确定',
+          callback: action => {
+            this.$message({
+              message: `Create C Success`
+            });
+          }
+        })
       }).catch(error => {
         console.log(error)
       })

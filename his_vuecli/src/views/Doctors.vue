@@ -11,55 +11,22 @@
         <li class="btn" @click="gopatientlogin"><i class="el-icon-user"></i>患者登录</li>
         <li class="btn" @click="godoctorlogin"><i class="el-icon-s-custom"></i>医生登录</li>
       </ul>
-      <div></div>
-    </div>
-    <div class="home_banner" @mouseover="clear_animation()" @mouseleave="animation()">
-      <img :src="imgs[active_idx]">
-      <div class="btn left" @click="active_idx=(active_idx+imgs.length-1)%imgs.length" style="left: 0;">&lt;</div>
-      <div class="btn right" @click="active_idx=(active_idx+1)%imgs.length" style="right:0">&gt;</div>
-      <div class="dot-list">
-        <div style="display: flex;flex-direction: row;gap: 4px;">
-          <div v-for="(_, i) in imgs" :class="['dot', {'active': i===active_idx}]" @click="change(i)"></div>
-        </div>
-      </div>
     </div>
 
-    <div class="home_news">
-      <i class="el-icon-bell" style="margin-right: 8px"></i>本院将更新系统，请立刻更新。
-    </div>
     <div class="home_notification">
       <div
           style="display: flex;  justify-content: space-between; border-bottom: gray 1px solid; padding-bottom: 2px;">
-        <div>公告</div>
-        <div class="btn home_notification_more" @click="gotonews">更多 <span style="vertical-align: center">+</span></div>
-      </div>
-
-      <div class="home_notification_main">
-        <div v-for="i in Array(4)" class="home_notification_item">
-          <div class="home_notification_time">
-            <div style="font-size: 1.6rem">06</div>
-            <div style="font-size: 0.8rem">2023/04</div>
-          </div>
-          <div class="home_notification_info">
-            四川"五老"宣讲团近3年宣讲3.68万场 今年开展四川"五老"宣讲团近3年宣讲3.68万场 今年开展...
-          </div>
-        </div>
-      </div>
-
-      <br><br><br>
-      <div
-          style="display: flex;  justify-content: space-between; border-bottom: gray 1px solid; padding-bottom: 2px;">
         <div>医生介绍</div>
-        <div class="btn home_notification_more" @click="gotodoctors">更多 <span style="vertical-align: center">+</span></div>
       </div>
       <br>
       <div style="display: flex;flex-wrap: wrap; gap:300px;justify-content: center;" >
-        <div v-for="_ in Array(3)" class="doctor_item">
+        <div v-for="_ in Array(6)" class="doctor_item">
           <img src="https://upload.cd5120.com/2019/0812/thumb_140_180_20190812031637259.jpg" alt="">
           <div style="text-align: center;font-weight: bold">张政宇 <span
               style="margin-left: 6px;color: #1d8548;font-weight: normal">主任医生</span></div>
           <div style="text-align: center;color: #1d8548;font-weight: bold;padding: 6px 0;">肿瘤科</div>
           <div style="font-size: 0.8rem;padding:0 10% 10%;text-align: justify"><span style="font-weight: bold">擅长：</span>率先在我院开展肿瘤化疗、免疫治疗、肿瘤内分泌治疗，...</div>
+
         </div>
       </div>
 
@@ -73,7 +40,7 @@
 
 
 export default {
-  name: 'Home',
+  name: 'Doctors',
   components: {},
   data() {
     return {

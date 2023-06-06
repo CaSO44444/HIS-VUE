@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import About from '../views/About'
 import Home from '../views/Home.vue'
 import DoctorLogin from '../views/DoctorLogin.vue'
 import PatientLogin from '../views/PatientLogin.vue'
@@ -12,24 +11,17 @@ import DoctorChangePassword from '../views/DoctorChangePassword.vue'
 import PatientChangePassword from '../views/PatientChangePassword.vue'
 import DoctorHome from '../views/DoctorHome.vue'
 import AdminHome from '../views/AdminHome.vue'
-import CashierHome from '../views/AddMedicine.vue'
-import DoctorInspectionHome from '../views/DoctorInspectionHome.vue'
-import DoctorDrugHome from '../views/DoctorDrugHome.vue'
-import DoctorHomeold from "@/views/DoctorHomeold.vue";
 import PatientHome from "@/views/PatientHome.vue";
 import axios from "axios";
 import jwt_decode from 'jwt-decode';
+import Doctors from "@/views/Doctors.vue";
+import News from "@/views/News.vue";
 
 
 
 Vue.use(VueRouter)
 
 const routes = [
-    {
-        path: '/About',
-        name: 'About',
-        component: About
-    },
     {
         path: '/',
         name: 'Home',
@@ -41,6 +33,16 @@ const routes = [
         component: DoctorLogin
     },
     {
+        path: '/Doctors',
+        name: 'Doctors',
+        component: Doctors
+    },
+    {
+        path: '/News',
+        name: 'News',
+        component: News
+    },
+    {
         path: '/PatientLogin',
         name: 'PatientLogin',
         component: PatientLogin
@@ -49,11 +51,6 @@ const routes = [
         path: '/DoctorRegister',
         name: 'DoctorRegister',
         component: DoctorRegister
-    },
-    {
-        path: '/Doctortest1',
-        name: 'DoctorHomeold',
-        component: DoctorHomeold
     },
     {
         path: '/PatientRegister',
@@ -91,24 +88,9 @@ const routes = [
         component: AdminHome
     },
     {
-        path: '/CashierHome',
-        name: 'CashierHome',
-        component: CashierHome
-    },
-    {
         path: '/PatientHome',
         name: 'PatientHome',
         component: PatientHome
-    },
-    {
-        path: '/DoctorInspectionHome',
-        name: 'DoctorInspectionHome',
-        component: DoctorInspectionHome
-    },
-    {
-        path: '/DoctorDrugHome',
-        name: 'DoctorDrugHome',
-        component: DoctorDrugHome
     },
 ]
 
@@ -119,7 +101,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    if (to.name === 'PatientLogin' || to.name === 'DoctorLogin' || to.name === 'Home') {
+    if (to.name === 'PatientLogin' || to.name === 'DoctorLogin' || to.name === 'Home' || to.name === 'News' || to.name === 'Doctors') {
         // 如果是登录界面，则直接允许访问
         next();
     } else {
