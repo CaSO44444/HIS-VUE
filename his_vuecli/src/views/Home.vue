@@ -8,8 +8,8 @@
       <ul class="home_tab">
         <li class="btn"><i class="el-icon-school"></i>医院介绍</li>
         <li class="btn"><i class="el-icon-coordinate"></i>科室介绍</li>
-        <li class="btn"><i class="el-icon-user"></i>患者登录</li>
-        <li class="btn"><i class="el-icon-s-custom"></i>医生登录</li>
+        <li class="btn" @click="gopatientlogin"><i class="el-icon-user"></i>患者登录</li>
+        <li class="btn" @click="godoctorlogin"><i class="el-icon-s-custom"></i>医生登录</li>
       </ul>
       <div></div>
     </div>
