@@ -248,7 +248,6 @@ export default {
       this.PatientConsultation.patientId = this.patient_id
       this.PatientConsultation.type = "门诊"
       this.PatientConsultation.doctorName = this.reservation[index].doctor.doctor_name
-      console.log(this.reservation[index].doctor.doctor_id)
       this.PatientConsultation.doctorId = this.reservation[index].doctor.doctor_id
       this.PatientConsultation.deptName = this.reservation[index].dept.dept_name
       this.PatientConsultation.deptId = this.reservation[index].dept.dept_id
@@ -258,7 +257,6 @@ export default {
     },
     addPatientConsultation() {
       this.$axios.post('/consultation/add', this.PatientConsultation).then(response => {
-        console.log(response.data)
         //返回值部分
         // this.reservation = response.data.data
         // this.reservationtotal = response.data.data.length

@@ -733,7 +733,8 @@ export default {
                 pageNum: this.tablePage.pageNum
               }
           )
-      ).then(response => {      //返回值部分
+      ).then(response => {
+        //返回值部分
         this.noform = response.data.data
       }).catch(error => {
         console.log(error)
@@ -882,6 +883,7 @@ export default {
       ).then(response => {
         //返回值部分
         this.thisPagePatientPRRandMR = response.data.data[0]
+        console.log(this.thisPagePatientPRRandMR)
         if (this.thisPagePatientPRRandMR.patient.gender === '1') {
           this.thisPagePatientPRRandMR.patient.gender = '男'
         } else {
