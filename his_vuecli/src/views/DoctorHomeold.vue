@@ -1,7 +1,7 @@
 <template>
     <div class="doctorhome">
 <!--        侧边栏  显示所有桓泽和的挂号信息-->
-        <div class="doctorhome_lect">
+        <div class="doctorhome_left">
 <!--            采用卡片模式-->
             <el-card class="box-card">
 <!--            搜索，日期转换，根据日期选择挂号  + 根据患者姓名搜索患者信息
@@ -2305,8 +2305,8 @@
         }
     }
 </script>
-<style>
-    .doctorhome_lect{
+<style scoped>
+    .doctorhome_left{
         position: absolute;
         width: 475px;
         height: 700px;
