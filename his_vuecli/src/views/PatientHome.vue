@@ -234,10 +234,12 @@ export default {
     },
     resehandleEdit(index) {
       this.activeName = 'third'
+      this.PatientConsultation.patientName = this.patientObject[0].name
       this.PatientConsultation.type = this.reservation[index].type
       this.PatientConsultation.doctorName = this.reservation[index].doctor.doctor_name
-      this.PatientConsultation.patientName = this.Patient.name
       this.PatientConsultation.deptName = this.reservation[index].dept.dept_name
+      this.PatientConsultation.con_num = Math.floor((new Date().getTime() % 1000) + 1)
+      this.PatientConsultation.money = this.Dept.find(item => item.dept_name===this.PatientConsultation.deptName).price
 
     },
     addPatientConsultation() {
