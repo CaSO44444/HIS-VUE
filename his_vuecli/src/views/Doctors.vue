@@ -22,7 +22,7 @@
       <div style="display: flex;flex-wrap: wrap; gap:300px;justify-content: center;" >
         <div v-for="_ in Array(6)" class="doctor_item">
           <img src="https://upload.cd5120.com/2019/0812/thumb_140_180_20190812031637259.jpg" alt="">
-          <div style="text-align: center;font-weight: bold">张政宇 <span
+          <div style="text-align: center;font-weight: bold">周锐 <span
               style="margin-left: 6px;color: #1d8548;font-weight: normal">主任医生</span></div>
           <div style="text-align: center;color: #1d8548;font-weight: bold;padding: 6px 0;">肿瘤科</div>
           <div style="font-size: 0.8rem;padding:0 10% 10%;text-align: justify"><span style="font-weight: bold">擅长：</span>率先在我院开展肿瘤化疗、免疫治疗、肿瘤内分泌治疗，...</div>

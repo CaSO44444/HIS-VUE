@@ -65,7 +65,7 @@ export default {
           )
       ).then(response=>{      //返回值部分
         this.inf = response.data
-        if(this.inf.msg === "success"&&this.inf.data.roles === 2){ // patient是2
+        if(this.inf.msg === "success"&&this.inf.data.role === 2){ // patient是2
             document.cookie = `token=${this.inf.data.token};`;
           this.$router.push({
             path:'/PatientHome'               	//目标URL，为注册的路由

@@ -4,7 +4,7 @@
     <div style="display: flex; justify-content: space-between; line-height: 3rem; padding:1rem 0;">
       <div class="home_top">
         <div><img class="home_img" src="../assets/Choose/HOME1.png"></div>
-        <div style="vertical-align: middle;">HIS</div>
+        <div style="vertical-align: middle;">阳光医疗管理系统</div>
       </div>
       <ul class="home_tab">
         <li class="btn" @click="change('主页')"><i class="el-icon-school"></i>首页</li>

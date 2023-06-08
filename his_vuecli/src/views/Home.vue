@@ -3,7 +3,7 @@
     <div style="display: flex; justify-content: space-between; line-height: 3rem; padding:1rem 0;">
       <div class="home_top">
         <div><img class="home_img" src="../assets/Choose/HOME1.png"></div>
-        <div style="vertical-align: middle;">HIS</div>
+        <div style="vertical-align: middle;">阳光医疗管理系统</div>
       </div>
       <ul class="home_tab">
         <li class="btn" @click="gotonews"><i class="el-icon-school"></i>医院公告</li>
@@ -53,10 +53,10 @@
         <div class="btn home_notification_more" @click="gotodoctors">更多 <span style="vertical-align: center">+</span></div>
       </div>
       <br>
-      <div style="display: flex;flex-wrap: wrap; gap:300px;justify-content: center;" >
+      <div style="display: flex;flex-wrap: wrap; gap:50px;justify-content: center;" >
         <div v-for="_ in Array(3)" class="doctor_item">
           <img src="https://upload.cd5120.com/2019/0812/thumb_140_180_20190812031637259.jpg" alt="">
-          <div style="text-align: center;font-weight: bold">张政宇 <span
+          <div style="text-align: center;font-weight: bold">周锐 <span
               style="margin-left: 6px;color: #1d8548;font-weight: normal">主任医生</span></div>
           <div style="text-align: center;color: #1d8548;font-weight: bold;padding: 6px 0;">肿瘤科</div>
           <div style="font-size: 0.8rem;padding:0 10% 10%;text-align: justify"><span style="font-weight: bold">擅长：</span>率先在我院开展肿瘤化疗、免疫治疗、肿瘤内分泌治疗，...</div>
@@ -130,8 +130,10 @@ export default {
 }
 
 .home {
-  width: 100%;
+  width: 80%;
   padding: 0 2rem;
+    margin-left: auto;
+    margin-right: auto;
 
 }
 
@@ -166,15 +168,15 @@ export default {
 }
 
 .home_banner {
-  width: 100%;
-  height: 600px;
+  width: 50%;
+  height: 300px;
   margin: 0 auto;
   background-color: gray;
   position: relative;
 }
 
 .home_banner img {
-  height: 600px;
+  height: 300px;
   width: 100%;
   object-fit: cover;
 }
