@@ -9,6 +9,19 @@
         </div>
         <div class="doctorregisterform">
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+
+                <el-form-item label="姓名" prop="name">
+                    <el-input v-model="ruleForm.name"></el-input>
+                </el-form-item>
+
+                <el-form-item label="电话" prop="tel">
+                    <el-input v-model="ruleForm.tel"></el-input>
+                </el-form-item>
+
+                <el-form-item label="身份证" prop="id_card">
+                    <el-input v-model="ruleForm.id_card"></el-input>
+                </el-form-item>
+
                 <el-form-item label="登录名" prop="puusername">
                     <el-input v-model="ruleForm.puusername"></el-input>
                 </el-form-item>
@@ -144,6 +157,9 @@
                 verificationUrl:"http://127.0.0.1:8080/common/kaptcha?d="+new Date()*1,
                 department:{},
                 ruleForm: {
+                    name: '',
+                    tel: '',
+                    id_card: '',
                     puusername:'',
                     pupassword:'',
                     pusure_password:'',
@@ -219,7 +235,10 @@
                               password:this.ruleForm.pupassword,
                               check_password:this.ruleForm.pusure_password,
                               roles:this.ruleForm.role,
-                              verifyCode:this.ruleForm.verifyCode
+                              verifyCode:this.ruleForm.verifyCode,
+                                name: this.ruleForm.name,
+                                tel: this.ruleForm.tel,
+                                id_card: this.ruleForm.id_card
                             })
                         ).then(response=>{      //返回值部分
                             this.inf = response.data

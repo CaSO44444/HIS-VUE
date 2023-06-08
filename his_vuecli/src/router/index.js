@@ -101,7 +101,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    if (to.name === 'PatientLogin' || to.name === 'DoctorLogin' || to.name === 'Home' || to.name === 'News' || to.name === 'Doctors') {
+    if (to.name === 'PatientLogin' || to.name === 'DoctorLogin' || to.name === 'Home' || to.name === 'News' || to.name === 'Doctors' ||to.name === 'PatientRegister' || to.name ==='DoctorRegister') {
         // 如果是登录界面，则直接允许访问
         next();
     } else {

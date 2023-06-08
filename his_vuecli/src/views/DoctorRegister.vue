@@ -9,6 +9,10 @@
         </div>
         <div class="doctorregisterform">
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                <el-form-item label="姓名" prop="name">
+                    <el-input v-model="ruleForm.name"></el-input>
+                </el-form-item>
+
                 <el-form-item label="用户名" prop="username">
                     <el-input v-model="ruleForm.username"></el-input>
                 </el-form-item>
@@ -29,8 +33,8 @@
                 <el-button type="mini" @click="flushcode">刷新验证码</el-button>
               </el-form-item>
 
-                <el-form-item label="角色" prop="role">
-                    <el-radio-group v-model="ruleForm.role">
+                <el-form-item label="角色" prop="roles">
+                    <el-radio-group v-model="ruleForm.roles">
                         <el-radio label="医生"></el-radio>
                     </el-radio-group>
                 </el-form-item>
@@ -51,10 +55,7 @@
                     <el-select v-model="ruleForm.departmentname" placeholder="请选择科室" style="margin-left: 20px">
 
                         <ul v-for="(item,index) in department" >
-
-                            <el-option :label="item" :value="item"></el-option>
-
-
+                            <el-option :label="item.dept_name" :value="item.dept_name"></el-option>
                         </ul>
 
                     </el-select>
@@ -75,9 +76,7 @@
 export default {
     created() {
         //找到所有的品牌
-        this.$axios.get('dept/query',
-
-        ).then(response=>{      //返回值部分
+        this.$axios.get('dept/query',).then(response=>{      //返回值部分
             this.department = response.data.data
         }).catch(error=>{
             console.log(error)
@@ -157,10 +156,11 @@ export default {
             verificationUrl:"http://127.0.0.1:8080/common/kaptcha?d="+new Date()*1,
             department:{},
             ruleForm: {
+                name: '',
                 username:'',
                 password:'',
                 check_password:'',
-                role:'',
+                roles:'',
                 verifyCode:'',
                 departmentname:'',
             },
@@ -187,6 +187,9 @@ export default {
         };
     },
     methods: {
+        flushcode(){
+            this.verificationUrl="http://127.0.0.1:8080/common/kaptcha?d="+new Date()*1
+        },
         returnoff(){
             this.$router.push('/DoctorLogin');
         },
@@ -194,11 +197,11 @@ export default {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     //执行正确操作
-                    if(this.ruleForm.role === "医生"){
-                        this.ruleForm.role = 1
+                    if(this.ruleForm.roles === "医生"){
+                        this.ruleForm.roles = 1
                     }
                     else{
-                        this.ruleForm.role = 0
+                        this.ruleForm.roles = 0
                     }
                     // console.log(this.ruleForm)
                     this.$axios.post('/user/register', this.$qs.stringify(this.ruleForm)).then(response=>{      //返回值部分
