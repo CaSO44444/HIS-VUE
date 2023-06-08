@@ -16,6 +16,7 @@ import axios from "axios";
 import jwt_decode from 'jwt-decode';
 import Doctors from "@/views/Doctors.vue";
 import News from "@/views/News.vue";
+import AdminLogin from "@/views/AdminLogin.vue";
 
 
 
@@ -92,6 +93,11 @@ const routes = [
         name: 'PatientHome',
         component: PatientHome
     },
+    {
+        path: '/AdminLogin',
+        name: 'AdminLogin',
+        component: AdminLogin
+    },
 ]
 
 
@@ -101,7 +107,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    if (to.name === 'PatientLogin' || to.name === 'DoctorLogin' || to.name === 'Home' || to.name === 'News' || to.name === 'Doctors' ||to.name === 'PatientRegister' || to.name ==='DoctorRegister') {
+    if (to.name=== 'AdminLogin'|| to.name === 'PatientLogin' || to.name === 'DoctorLogin' || to.name === 'Home' || to.name === 'News' || to.name === 'Doctors' ||to.name === 'PatientRegister' || to.name ==='DoctorRegister') {
         // 如果是登录界面，则直接允许访问
         next();
     } else {

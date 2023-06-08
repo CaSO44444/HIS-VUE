@@ -209,27 +209,7 @@
                     :disabled="true">
                 </el-input>
               </el-form-item>
-              <!--                            固定信息部分-->
 
-
-              <!--              </el-form>-->
-              <!--              &lt;!&ndash;                        所有疾病的信息&ndash;&gt;-->
-              <!--              <div class="doctorhome_right_tabs_patientinf_diagnosisform">-->
-              <!--                <el-form :inline="true" :model="choosedaignosis">-->
-              <!--                  <el-form-item label="疾病快捷选择">-->
-              <!--                    <el-select v-model="choosedaignosis.diagnosis" filterable placeholder="请选择">-->
-              <!--                      <el-option-->
-              <!--                          v-for="item in daignosis"-->
-              <!--                          :key="item.dname"-->
-              <!--                          :label="item.dname + item.dpinyin"-->
-              <!--                          :value="item.dname">-->
-              <!--                      </el-option>-->
-              <!--                    </el-select>-->
-              <!--                  </el-form-item>-->
-
-              <!--                  <el-form-item>-->
-              <!--                    <el-button type="success" plain @click="adddiagnosisform">选择添加进诊断结果</el-button>-->
-              <!--                  </el-form-item>-->
             </el-form>
             <div>
               <!--                                把左侧主诉，现病史，诊断结果等提交-->
